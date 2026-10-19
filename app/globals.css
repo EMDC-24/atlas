@@ -1,0 +1,685 @@
+@import "tailwindcss";
+@import "./formie.css";
+
+/* Design tokens lifted verbatim from the original build's compiled
+   `@layer theme` block. Tailwind's own defaults are intentionally omitted --
+   only the project's custom tokens live here. */
+@theme {
+  --font-roc-grotesk: "Roc Grotesk", sans-serif;
+  --font-azeret-mono: "Azeret Mono", monospace;
+
+  --color-core-black: #090909;
+  --color-rich-carbon: #111;
+  --color-urban-smoke: #1b1b1b;
+  --color-pulse-ash: #535353;
+  --color-off-white: #e7e7e7;
+  --color-neural-fog: #dadada;
+  --color-white-flash: #f5f5f5;
+  --color-electric-teal: #5c939f;
+  --color-infrared: #ed6d40;
+  --color-validation-green-dark: #59a993;
+  --color-validation-red: #cb3500;
+
+  --blur-sm: 0.5rem;
+  --animate-glitch-hover: glitch-hover 0.3s linear;
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Roc Grotesk";
+  font-style: normal;
+  font-weight: 400;
+  src:
+    url(/assets/roc-grotesk-regular.woff2) format("woff2"),
+    url(/assets/roc-grotesk-regular.woff) format("woff");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Roc Grotesk";
+  font-style: normal;
+  font-weight: 500;
+  src:
+    url(/assets/roc-grotesk-medium.woff2) format("woff2"),
+    url(/assets/roc-grotesk-medium.woff) format("woff");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Azeret Mono";
+  font-style: normal;
+  font-weight: 500;
+  src: url(/assets/azeret-mono-regular.otf) format("opentype");
+}
+
+@layer base {
+  :root {
+    --easing: cubic-bezier(0.62, 0.16, 0.13, 1.01);
+    --header-height: 4rem;
+  }
+
+  /* ScrollSmoother measures against a stable gutter; without this the layout
+     shifts horizontally the moment the scrollbar appears. */
+  html {
+    padding-right: 0 !important;
+    scrollbar-gutter: stable !important;
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom scrollbar. This is load-bearing for layout, not just decoration:
+     combined with `scrollbar-gutter: stable` above, the 0.5rem width sets how
+     much horizontal space the gutter reserves. At the browser default (15px)
+     every container is ~7px narrower, which rewraps body copy and accumulates
+     into visible vertical drift down long pages. */
+  ::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-rich-carbon);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-neural-fog);
+    border-radius: 0.75rem;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  /* The custom cursor replaces the native one, but only where it actually
+     renders: fine pointers on tablet-and-up. */
+  @media (pointer: fine) and (min-width: 48rem) {
+    [data-view-cursor-target],
+    [data-view-cursor-target] button {
+      cursor: none !important;
+    }
+  }
+}
+
+/* Typography scale. These are `@utility` rather than plain classes because the
+   markup uses them with variants (md:p1-mono, md:p2-mono, md:p3-mono). */
+@utility p1-mono {
+  font-family: var(--font-azeret-mono);
+  font-size: 0.75rem;
+  line-height: 120%;
+  text-transform: uppercase;
+
+  @media (min-width: 48rem) {
+    font-size: 0.875rem;
+  }
+}
+
+@utility p2-mono {
+  font-family: var(--font-azeret-mono);
+  font-size: 0.688rem;
+  line-height: 0.938rem;
+  text-transform: uppercase;
+
+  @media (min-width: 48rem) {
+    font-size: 0.75rem;
+  }
+}
+
+@utility p3-mono {
+  font-family: var(--font-azeret-mono);
+  font-size: 0.688rem;
+  line-height: 130%;
+  text-transform: uppercase;
+}
+
+@utility p4-mono {
+  font-family: var(--font-azeret-mono);
+  font-size: 0.688rem;
+  line-height: 130%;
+  text-transform: uppercase;
+}
+
+/* Body copy scale (Roc Grotesk), distinct from the `p*-mono` scale. */
+@utility p1 {
+  font-size: 0.875rem;
+  line-height: 120%;
+
+  @media (min-width: 48rem) {
+    font-size: 1rem;
+  }
+}
+
+@utility p2 {
+  font-size: 0.938rem;
+  line-height: 110%;
+}
+
+@utility p3 {
+  font-size: 0.875rem;
+  line-height: 115%;
+}
+
+/* Display heading scale, applied as a class independently of the tag -- e.g.
+   the homepage <h1> carries `h2`. There is no `h1` utility; the original never
+   defined one. Values match the `.prose` headings. */
+@utility h2 {
+  font-size: 2.25rem;
+  font-weight: 500;
+  line-height: 0.95;
+
+  @media (min-width: 48rem) {
+    font-size: 3.75rem;
+  }
+}
+
+@utility h3 {
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1;
+
+  @media (min-width: 48rem) {
+    font-size: 3.125rem;
+  }
+}
+
+@utility h4 {
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 1;
+
+  @media (min-width: 48rem) {
+    font-size: 2.5rem;
+  }
+}
+
+@utility h5 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1;
+
+  @media (min-width: 48rem) {
+    font-size: 1.875rem;
+  }
+}
+
+@utility h6 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.1;
+
+  @media (min-width: 48rem) {
+    font-size: 1.375rem;
+    line-height: 1;
+  }
+}
+
+/* Only ever used as `md:h7` in the markup -- the original emitted no bare
+   `.h7` rule -- but it must be defined as a utility for the variant to exist. */
+@utility h7 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+/* Viewport-scaled display size for the industries list. Used as
+   `min-[360px]:h-vw`, so it too only exists via a variant. */
+@utility h-vw {
+  font-size: clamp(2.25rem, 5.5vw, 4.875rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+/* Overrides Tailwind's default container. The original emitted the stock
+   breakpoint max-widths and then this rule after them, so `max-width: 160rem`
+   won at every breakpoint -- the site is capped at 160rem, not 96rem, with
+   only the gutter changing responsively. Replacing the utility outright
+   reproduces that computed result. */
+@utility container {
+  margin-inline: auto;
+  max-width: 160rem;
+  padding-inline: 0.625rem;
+  width: 100%;
+
+  @media (min-width: 64rem) {
+    padding-inline: 2.5rem;
+  }
+}
+
+@layer components {
+  /* Decorative L-shaped brackets, positioned per corner by source order. */
+  .corner-accent {
+    position: absolute;
+  }
+  .corner-accent:first-of-type {
+    left: var(--inset, 0);
+    top: var(--inset, 0);
+  }
+  .corner-accent:nth-of-type(2) {
+    right: var(--inset, 0);
+    top: var(--inset, 0);
+    transform: rotate(90deg);
+  }
+  .corner-accent:nth-of-type(3) {
+    bottom: var(--inset, 0);
+    left: var(--inset, 0);
+    transform: rotate(270deg);
+  }
+  .corner-accent:nth-of-type(4) {
+    bottom: var(--inset, 0);
+    right: var(--inset, 0);
+    transform: rotate(180deg);
+  }
+
+  .button {
+    touch-action: manipulation;
+  }
+  .button.-arrow {
+    align-items: center;
+    border-radius: 0.25rem;
+    display: flex;
+    height: 1.875rem;
+    justify-content: center;
+    width: 1.875rem;
+  }
+  .button.-arrow,
+  .button.-arrow.-light {
+    background-color: var(--color-off-white);
+    color: var(--color-rich-carbon);
+  }
+  .button.-arrow.-dark {
+    background-color: var(--color-urban-smoke);
+    color: var(--color-off-white);
+  }
+  .button.-arrow.-large {
+    height: 2.375rem;
+    width: 2.375rem;
+  }
+  .button.-arrow:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  /* Stretches a link's hit area over its whole positioned ancestor. */
+  .box-link::before {
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .skip-link {
+    background: #000;
+    border-radius: 0.5rem;
+    color: #fff;
+    font-weight: 700;
+    left: 50%;
+    padding: 0.75rem 0.5rem;
+    position: absolute;
+    transform: translate(-50%);
+    z-index: 20;
+  }
+  .skip-link:not(:focus) {
+    border-width: 0;
+    clip-path: inset(50%);
+    height: 0.063rem;
+    margin: -0.063rem;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 0.063rem;
+  }
+
+  /* Hero title words are animated individually by GSAP, so they need to be
+     inline-block to accept transforms. */
+  .hero-title--left,
+  .hero-title--right {
+    display: inline-block;
+    will-change: transform;
+  }
+
+  .modal--scrollbar::-webkit-scrollbar-track {
+    background: var(--color-white-flash) !important;
+  }
+  .modal--scrollbar::-webkit-scrollbar-thumb {
+    background: #0006 !important;
+    border-radius: 0 !important;
+  }
+
+  /* Preloader: the panel wipes up while the logo scales, then rotates and
+     bobs. Timings are the original's, driven off --easing. */
+  .loader {
+    animation: loader 2s var(--easing) 2s forwards;
+  }
+  .loader .loader--logo {
+    animation:
+      loader-logo 1s var(--easing) forwards,
+      loader-logo-rotate 0.5s var(--easing) 1.75s forwards,
+      loader-logo-translate 1s var(--easing) 1.75s forwards;
+  }
+  .loader .loader--clip-svg {
+    animation: clip-svg 1.75s var(--easing) forwards;
+  }
+
+  .prose {
+    font-size: 0.938rem;
+    line-height: 110%;
+  }
+  :where(.prose > :not(:last-child)) {
+    --tw-space-y-reverse: 0;
+    margin-block-end: calc(1.25rem * (1 - var(--tw-space-y-reverse)));
+    margin-block-start: calc(1.25rem * var(--tw-space-y-reverse));
+  }
+  @media (min-width: 48rem) {
+    :where(.prose > :not(:last-child)) {
+      margin-block-end: calc(1.5rem * (1 - var(--tw-space-y-reverse)));
+      margin-block-start: calc(1.5rem * var(--tw-space-y-reverse));
+    }
+  }
+  .prose :not(h1, h2, h3, h4, h5, h6) {
+    color: #e7e7e799;
+  }
+  @supports (color: color-mix(in lab, red, red)) {
+    .prose :not(h1, h2, h3, h4, h5, h6) {
+      color: color-mix(in oklab, var(--color-off-white) 60%, transparent);
+    }
+  }
+  .prose h1 {
+    font-size: 2.75rem;
+    font-weight: 500;
+    line-height: 0.95;
+  }
+  @media (min-width: 48rem) {
+    .prose h1 {
+      font-size: 3.5rem;
+      line-height: 1;
+    }
+  }
+  @media (min-width: 64rem) {
+    .prose h1 {
+      font-size: 4.875rem;
+      line-height: 1;
+    }
+  }
+  .prose h2 {
+    font-size: 2.25rem;
+    font-weight: 500;
+    line-height: 0.95;
+  }
+  @media (min-width: 48rem) {
+    .prose h2 {
+      font-size: 3.75rem;
+    }
+  }
+  .prose h3 {
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1;
+  }
+  @media (min-width: 48rem) {
+    .prose h3 {
+      font-size: 3.125rem;
+    }
+  }
+  .prose h4 {
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1;
+  }
+  @media (min-width: 48rem) {
+    .prose h4 {
+      font-size: 2.5rem;
+    }
+  }
+  .prose h5 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1;
+  }
+  @media (min-width: 48rem) {
+    .prose h5 {
+      font-size: 1.875rem;
+    }
+  }
+  .prose h6 {
+    font-size: 1.125rem;
+    font-weight: 500;
+    line-height: 1.1;
+  }
+  @media (min-width: 48rem) {
+    .prose h6 {
+      font-size: 1.375rem;
+      line-height: 1;
+    }
+  }
+  .prose strong {
+    color: var(--color-off-white);
+    font-weight: 400;
+  }
+  .prose ul {
+    list-style-type: disc;
+    padding-left: 1rem;
+  }
+  .prose ol {
+    list-style-type: decimal;
+    padding-left: 1rem;
+  }
+
+  .prose--rich {
+    font-size: 0.875rem;
+    line-height: 120%;
+  }
+  @media (min-width: 48rem) {
+    .prose--rich {
+      font-size: 1rem;
+    }
+  }
+  .prose--rich h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  @media (min-width: 48rem) {
+    .prose--rich h2 {
+      font-size: 1.875rem;
+    }
+  }
+  .prose--rich h3,
+  .prose--rich h4,
+  .prose--rich h5,
+  .prose--rich h6 {
+    font-size: 1.125rem;
+    font-weight: 500;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+  @media (min-width: 48rem) {
+    .prose--rich h3,
+    .prose--rich h4,
+    .prose--rich h5,
+    .prose--rich h6 {
+      font-size: 1.375rem;
+      line-height: 1;
+    }
+  }
+  .prose--rich figure {
+    display: block;
+    margin-block: 3.5rem;
+  }
+  @media (min-width: 48rem) {
+    .prose--rich figure {
+      margin-block: 4rem;
+    }
+  }
+  .prose--rich blockquote {
+    color: var(--color-neural-fog);
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1;
+    margin-block: 3.5rem;
+    padding-block: 1.25rem;
+    text-transform: uppercase;
+  }
+  @media (min-width: 48rem) {
+    .prose--rich blockquote {
+      font-size: 1.875rem;
+      margin-block: 4rem;
+      padding-block: 1.5rem;
+    }
+  }
+  .prose--rich blockquote p {
+    color: var(--color-neural-fog);
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  @media (min-width: 48rem) {
+    .prose--rich blockquote p {
+      font-size: 1.875rem;
+    }
+  }
+  .prose--rich a {
+    color: var(--color-off-white);
+    text-decoration-line: underline;
+  }
+  @media (hover: hover) {
+    .prose--rich a:hover {
+      text-decoration-line: none;
+    }
+  }
+  .prose--rich ol,
+  .prose--rich ul {
+    margin-block: 3.5rem;
+  }
+  @media (min-width: 48rem) {
+    .prose--rich ol,
+    .prose--rich ul {
+      margin-block: 4rem;
+    }
+  }
+  :is(.prose--rich ul, .prose--rich ol) ol,
+  :is(.prose--rich ul, .prose--rich ol) ul {
+    margin-block: 1.5rem;
+  }
+  .prose--rich .media,
+  .prose--rich iframe {
+    aspect-ratio: var(--aspect-video);
+    display: block;
+    height: auto;
+    margin-block: 3.5rem;
+    width: 100%;
+  }
+  @media (min-width: 48rem) {
+    .prose--rich .media,
+    .prose--rich iframe {
+      margin-block: 4rem;
+    }
+  }
+  :is(.prose--rich .media, .prose--rich iframe) iframe {
+    margin-block: calc(var(--spacing) * 0);
+  }
+}
+
+@keyframes loader {
+  0% {
+    clip-path: inset(0);
+    transform: translateY(0);
+  }
+  to {
+    clip-path: inset(0 0 100%);
+    transform: translateY(-3rem);
+  }
+}
+
+@keyframes loader-logo {
+  0% {
+    transform: scale(1.05) rotate(0);
+  }
+  to {
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes loader-logo-rotate {
+  0% {
+    transform: scale(1) rotate(0);
+  }
+  to {
+    transform: scale(1) rotate(-90deg);
+  }
+}
+
+@keyframes loader-logo-translate {
+  0% {
+    translate: 0;
+  }
+  50% {
+    translate: 0 -2rem;
+  }
+  to {
+    translate: 0;
+  }
+}
+
+@keyframes clip-svg {
+  0% {
+    clip-path: inset(100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes glitch-hover {
+  0% {
+    opacity: 1;
+  }
+  8% {
+    opacity: 0.7;
+  }
+  12% {
+    opacity: 0.2;
+  }
+  18% {
+    opacity: 0.9;
+  }
+  25% {
+    opacity: 1;
+  }
+  32% {
+    opacity: 0.4;
+  }
+  38% {
+    opacity: 0.8;
+  }
+  42% {
+    opacity: 0.3;
+  }
+  48% {
+    opacity: 1;
+  }
+  65% {
+    opacity: 0.85;
+  }
+  72% {
+    opacity: 0.15;
+  }
+  78% {
+    opacity: 0.6;
+  }
+  85% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}

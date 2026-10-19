@@ -1,0 +1,372 @@
+/* Formie form styles, extracted verbatim from the original compiled bundle
+   (tools/gen_formie_css.py). The contact form's markup keeps its `fui-*`
+   classes, so these rules are what actually style it.
+
+   Kept in `@layer components` so Tailwind utilities still win over them, which
+   matches the original cascade order.
+
+   The `.iti` rules belong to the international-telephone-input widget used by
+   the phone field. The country-selector JS isn't ported (it was Craft/Formie
+   plumbing), but the rules are harmless and kept for completeness. */
+
+@layer components {
+  .fui-form .fui-form-container {
+    padding-bottom:2rem;
+  }
+
+  @media (min-width:48rem) {
+    .fui-form .fui-form-container {
+      padding-bottom:2.5rem;
+    }
+  }
+
+  .fui-form .fui-page-container {
+    display:flex;
+    flex-direction:column;
+    gap:2rem;
+    margin-bottom:2.5rem;
+  }
+
+  .fui-form .fui-fieldset:has(.fui-checkbox) legend {
+    display:none;
+  }
+
+  .fui-form .fui-fieldset legend {
+    color:var(--color-rich-carbon);
+    font-family:var(--font-azeret-mono);
+    font-size:.688rem;
+    line-height:130%;
+    margin-bottom:1rem;
+    text-transform:uppercase;
+  }
+
+  .fui-form .fui-input-wrapper {
+    display:flex;
+    width:100%;
+  }
+
+  .fui-form .fui-input[type=email],.fui-form .fui-input[type=password],.fui-form .fui-input[type=tel],.fui-form .fui-input[type=text],.fui-form textarea.fui-input {
+    border-bottom:.063rem var(--tw-border-style);
+    border-color:#1113;
+  }
+
+  @supports (color:color-mix(in lab,red,red)) {
+    .fui-form .fui-input[type=email],.fui-form .fui-input[type=password],.fui-form .fui-input[type=tel],.fui-form .fui-input[type=text],.fui-form textarea.fui-input {
+      border-color:color-mix(in oklab,var(--color-rich-carbon)20%,transparent);
+    }
+  }
+
+  .fui-form .fui-input[type=email],.fui-form .fui-input[type=password],.fui-form .fui-input[type=tel],.fui-form .fui-input[type=text],.fui-form textarea.fui-input {
+    font-size:.875rem;
+    line-height:115%;
+  }
+
+  @media (hover:hover) {
+    :is(.fui-form .fui-input[type=text],.fui-form .fui-input[type=email],.fui-form .fui-input[type=tel],.fui-form .fui-input[type=password],.fui-form textarea.fui-input):hover {
+      border-color:#1119;
+    }
+  }
+
+  @media (hover:hover) {
+    @supports (color:color-mix(in lab,red,red)) {
+      :is(.fui-form .fui-input[type=text],.fui-form .fui-input[type=email],.fui-form .fui-input[type=tel],.fui-form .fui-input[type=password],.fui-form textarea.fui-input):hover {
+        border-color:color-mix(in oklab,var(--color-rich-carbon)60%,transparent);
+      }
+    }
+  }
+
+  .fui-form .fui-input[type=email],.fui-form .fui-input[type=password],.fui-form .fui-input[type=tel],.fui-form .fui-input[type=text],.fui-form textarea.fui-input {
+    padding-bottom:.563rem;
+    width:100%;
+  }
+
+  :is(.fui-form .fui-input[type=text],.fui-form .fui-input[type=email],.fui-form .fui-input[type=tel],.fui-form .fui-input[type=password],.fui-form textarea.fui-input):focus {
+    border-color:var(--color-rich-carbon);
+    outline-style:var(--tw-outline-style);
+    outline-width:0;
+  }
+
+  :is(.fui-form .fui-input[type=text],.fui-form .fui-input[type=email],.fui-form .fui-input[type=tel],.fui-form .fui-input[type=password],.fui-form textarea.fui-input).fui-error {
+    border-color:var(--color-validation-red);
+  }
+
+  .fui-form .fui-label {
+    border-width:0;
+    clip-path:inset(50%);
+    color:var(--color-rich-carbon);
+    font-family:var(--font-azeret-mono);
+    font-size:.688rem;
+    height:.063rem;
+    line-height:130%;
+    margin:-.063rem;
+    overflow:hidden;
+    padding:0;
+    position:absolute;
+    text-transform:uppercase;
+    white-space:nowrap;
+    width:.063rem;
+  }
+
+  .fui-form .fui-checkbox {
+    align-items:flex-start;
+    display:flex;
+    gap:.5rem;
+  }
+
+  .fui-form .fui-checkbox input[type=checkbox] {
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    border-color:#1116;
+    border-radius:.25rem;
+    border-style:var(--tw-border-style);
+    border-width:.063rem;
+    cursor:pointer;
+    flex-shrink:0;
+    height:1rem;
+    margin-top:-.063rem;
+    position:relative;
+    width:1rem;
+  }
+
+  @supports (color:color-mix(in lab,red,red)) {
+    .fui-form .fui-checkbox input[type=checkbox] {
+      border-color:color-mix(in oklab,var(--color-rich-carbon)40%,transparent);
+    }
+  }
+
+  .fui-form .fui-checkbox input[type=checkbox] {
+    background-color:#1111111a;
+  }
+
+  @supports (color:color-mix(in lab,red,red)) {
+    .fui-form .fui-checkbox input[type=checkbox] {
+      background-color:color-mix(in oklab,var(--color-rich-carbon)10%,transparent);
+    }
+  }
+
+  .fui-form .fui-checkbox input[type=checkbox]:checked {
+    background-color:var(--color-rich-carbon);
+    border-color:var(--color-rich-carbon);
+  }
+
+  .fui-form .fui-checkbox input[type=checkbox]:checked:after {
+    --tw-translate-x:-50%;
+    --tw-translate-y:-50%;
+    background-color:var(--color-off-white);
+    border-radius:340.282375rem;
+    content:"";
+    height:.375rem;
+    left:50%;
+    position:absolute;
+    top:50%;
+    translate:var(--tw-translate-x)var(--tw-translate-y);
+    width:.375rem;
+  }
+
+  .fui-form .fui-checkbox label {
+    color:#1116;
+    font-family:var(--font-azeret-mono);
+    font-size:.688rem;
+    line-height:130%;
+    text-transform:uppercase;
+  }
+
+  @supports (color:color-mix(in lab,red,red)) {
+    .fui-form .fui-checkbox label {
+      color:color-mix(in oklab,var(--color-rich-carbon)40%,transparent);
+    }
+  }
+
+  .fui-form .fui-checkbox label a {
+    color:var(--color-rich-carbon);
+    text-decoration-line:underline;
+  }
+
+  @media (hover:hover) {
+    .fui-form .fui-checkbox label a:hover {
+      text-decoration-line:none;
+    }
+  }
+
+  .fui-form .fui-group {
+    width:100%;
+  }
+
+  .fui-form .fui-group .fui-field-rows {
+    display:flex;
+    flex-direction:column;
+    gap:1.25rem;
+  }
+
+  @media (min-width:48rem) {
+    .fui-form .fui-group .fui-field-rows {
+      gap:1.5rem;
+    }
+  }
+
+  .fui-form .fui-group .fui-field-rows .fui-row {
+    display:grid;
+    gap:1.5rem;
+  }
+
+  @media (min-width:48rem) {
+    .fui-form .fui-group .fui-field-rows .fui-row {
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+  }
+
+  .fui-form .fui-field {
+    position:relative;
+  }
+
+  .fui-form .fui-field .fui-errors {
+    color:var(--color-validation-red);
+    font-family:var(--font-azeret-mono);
+    font-size:.688rem;
+    left:calc(var(--spacing)*0);
+    line-height:130%;
+    position:absolute;
+    text-transform:uppercase;
+    text-transform:none;
+    top:calc(100% + .25rem);
+  }
+
+  .fui-form .fui-type-radio .fui-layout-horizontal .fui-legend {
+    color:var(--color-rich-carbon);
+    float:left;
+    font-family:var(--font-azeret-mono);
+    font-size:.688rem;
+    line-height:130%;
+    margin:calc(var(--spacing)*0);
+    text-transform:uppercase;
+  }
+
+  .fui-form .fui-type-radio .fui-layout-horizontal .fui-required {
+    display:none;
+  }
+
+  .fui-form .fui-type-radio .fui-layout-horizontal .fui-instructions {
+    color:#1116;
+    font-family:var(--font-azeret-mono);
+    font-size:.688rem;
+    line-height:130%;
+    text-transform:uppercase;
+  }
+
+  @supports (color:color-mix(in lab,red,red)) {
+    .fui-form .fui-type-radio .fui-layout-horizontal .fui-instructions {
+      color:color-mix(in oklab,var(--color-rich-carbon)40%,transparent);
+    }
+  }
+
+  .fui-form .fui-type-radio .fui-layout-horizontal .fui-layout-wrap {
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+    margin-top:.75rem;
+  }
+
+  .fui-form .fui-type-radio .fui-layout-horizontal .fui-radio-input {
+    border-width:0;
+    clip-path:inset(50%);
+    height:.063rem;
+    margin:-.063rem;
+    overflow:hidden;
+    padding:0;
+    position:absolute;
+    white-space:nowrap;
+    width:.063rem;
+  }
+
+  .fui-form .fui-type-radio .fui-layout-horizontal .fui-radio-label {
+    align-items:center;
+    cursor:pointer;
+    display:flex;
+    font-family:var(--font-azeret-mono);
+    font-size:.75rem;
+    gap:.625rem;
+    line-height:120%;
+    padding:.75rem;
+    text-transform:uppercase;
+  }
+
+  @media (min-width:48rem) {
+    .fui-form .fui-type-radio .fui-layout-horizontal .fui-radio-label {
+      font-size:.875rem;
+    }
+  }
+
+  .fui-form .fui-type-radio .fui-layout-horizontal .fui-radio-label {
+    color:#1116;
+  }
+
+  @supports (color:color-mix(in lab,red,red)) {
+    .fui-form .fui-type-radio .fui-layout-horizontal .fui-radio-label {
+      color:color-mix(in oklab,var(--color-rich-carbon)40%,transparent);
+    }
+  }
+
+  .fui-form .fui-type-radio .fui-layout-horizontal .fui-radio-label {
+    transition-duration:var(--tw-duration,var(--default-transition-duration));
+    transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to,opacity,box-shadow,transform,translate,scale,rotate,filter,-webkit-backdrop-filter,backdrop-filter,display,content-visibility,overlay,pointer-events;
+    transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));
+  }
+
+  @media (hover:hover) {
+    .fui-form .fui-type-radio .fui-layout-horizontal .fui-radio-label:hover {
+      background-color:var(--color-off-white);
+      color:var(--color-rich-carbon);
+    }
+  }
+
+  .fui-form .fui-type-radio .fui-layout-horizontal :checked+.fui-radio-label {
+    background-color:var(--color-off-white);
+    color:var(--color-infrared);
+  }
+
+  .fui-form .fui-type-radio .fui-layout-horizontal :checked+.fui-radio-label:before {
+    background-color:var(--color-infrared);
+    border-radius:.188rem;
+    content:"";
+    height:.625rem;
+    width:.625rem;
+  }
+
+  .fui-form .iti {
+    width:100%;
+  }
+
+  .fui-form .iti .iti__selected-country {
+    padding-bottom:.5rem;
+  }
+
+  .fui-form .iti .iti__selected-country .iti__selected-dial-code {
+    font-family:var(--font-azeret-mono);
+    font-size:.688rem;
+    line-height:130%;
+    text-transform:uppercase;
+  }
+
+  .fui-alert-error {
+    background-color:var(--color-validation-red);
+    color:var(--color-off-white);
+    margin-bottom:1rem;
+  }
+
+  .fui-alert-error,.fui-alert-success {
+    text-wrap:pretty;
+    font-family:var(--font-azeret-mono);
+    font-size:.688rem;
+    line-height:130%;
+    padding-block:.5rem;
+    padding-inline:1rem;
+    text-align:center;
+    text-transform:uppercase;
+  }
+
+  .fui-alert-success {
+    background-color:var(--color-validation-green-dark);
+    margin-bottom:.5rem;
+  }
+}
